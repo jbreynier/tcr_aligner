@@ -24,3 +24,24 @@ def pairwise2_list(list_prev, seq):
             align_score = current_score
             best_sequence = prev_seq
     return (align_score, best_sequence)
+
+def multiple_pairwise2(row_prev_seq, list_curr, list_columns):
+    align_score = -math.inf
+    best_prev = ""
+    best_curr = ""
+    list_curr = set(list_curr)
+    for column in list_columns:
+        # quick fix: check if instance of list
+        if isinstance(row_prev_seq[column], list):
+            list_prev = set(row_prev_seq[column])
+            for prev_seq in list_prev:
+                for curr_seq in list_curr:
+                    current_score = pairwise2.align.localxs(prev_seq, curr_seq, -1, -1, score_only=True)
+                    if current_score > align_score:
+                        align_score = current_score
+                        best_prev = prev_seq
+                        best_curr = curr_seq
+    if align_score > -math.inf:
+        return (align_score, best_prev, best_curr)
+    else:
+        return float("NaN")
