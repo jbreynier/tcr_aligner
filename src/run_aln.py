@@ -7,6 +7,7 @@ import time
 
 
 df = pd.read_csv("../data/GSE179994/GSE179994_PBMC.bulkTCR.tsv", sep = '\t')
+print(df.head())
 # %%
 df = df.assign(clone_nt = df['TRB'].str.extract(r"(_\w+_)").iloc[:,0].str.replace("_", "").tolist())
 
