@@ -45,3 +45,37 @@ def multiple_pairwise2(row_prev_seq, list_curr, list_columns):
         return (align_score, best_prev, best_curr)
     else:
         return float("NaN")
+
+
+class HashedAln:
+    def __init__(self, ref_clones, clone_ids, kmer_size):
+        ## decided which seq to index( one with more seqs)
+        self.reference_clones = {k:v for k,v in zip(clone_ids, ref_clones)}
+        self.kmer_size = kmer_size
+    def build_index(self):
+        self.index = {}
+        for clone_id, seq in self.reference_clones.items():
+            kmers = [seq[i:(i + self.kmer_size)] for i in range(0,len(seq), self.kmer_size)]
+            for km in kmers:
+                if km in self.index:
+                    self.index[km].append(clone_id)
+                else:
+                    self.index[km]=[clone_id]
+    def align_clones(self, query_clones):
+        res = []
+        hit_size = []
+        for clone in query_clones:
+            hits = set()
+            kmers = [clone[i:(i + self.kmer_size)] for i in range(0,len(clone), self.kmer_size)]
+            for km in kmers:
+                if km in self.index:
+                    hits.update(self.index[km])
+
+            hit_size.append(len(hits))
+            if len(hits) >0:
+                hits_seq = [self.reference_clones[k] for k in hits ]
+                res.append(pairwise2_list(hits_seq, clone))
+            else:
+                res.append(None)
+        return res, hit_size
+#                    
