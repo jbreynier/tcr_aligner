@@ -96,3 +96,26 @@ class HashedAln:
 # 
 
 # %%
+
+def regex_matching(ref_clones, ref_ids, query_clones, query_ids):
+    algn_score = {key: 0 for key in query_ids} # for each query seq_id, how many 1 mismatch alignment matches
+    algn_matches = {} # for each query seq_id, what are the matched pre-clone ids
+    ref_clones = {k:v for k,v in zip(ref_ids, ref_clones)}
+    query_clones = {k:v for k,v in zip(query_ids, query_clones)}
+    for query_id, query_seq in query_clones.items():
+        for ref_id, ref_seq in ref_clones.items():
+            if regex.search(r'\*', ref_seq) | regex.search(r'\*', query_seq):
+                continue
+            # regex pattern should be shorter than query 
+            # findall returns the matched pattern in query
+            if len(query_seq) >= len(ref_seq): #then ref_seq is the pattern
+                matches = regex.findall("(%s){s<=1}" % ref_seq, "%s" % query_seq, overlapped=True)
+            else:
+                matches = regex.findall("(%s){s<=1}" % query_seq, "%s" % ref_seq, overlapped=True)
+            if len(matches) > 0:
+                algn_score[query_id] += 1
+                if query_id in algn_matches:
+                    algn_matches[query_id].append(ref_id)
+                else:
+                    algn_matches[query_id] = [ref_id]
+    return algn_score, algn_matches
