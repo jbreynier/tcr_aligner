@@ -9,7 +9,7 @@ pip install .
 
 ## Use cases
 
-Need reference set of clones (with separate list for ID and sequences), similar for query set of clones  
+Need reference set of clones (with separate list for ID and sequences), similar for query set of clones
 
 ```
 alnr = HashedAln(ref_clone_seq, ref_clone_ids, n_mismatches_allowed)
