@@ -9,10 +9,10 @@ pip install .
 
 ## Use cases
 
-Need Reference set of clones with separate list for ID, and sequences, and similar for query set of clones 
+Need reference set of clones (with separate list for ID and sequences), similar for query set of clones  
 
 ```
-alnr = HashedAln(ref_clone_seq ref_clone_ids, n_mismatches_allowed)
+alnr = HashedAln(ref_clone_seq, ref_clone_ids, n_mismatches_allowed)
 alnr.build_index()
 res = alnr.align_clones(query_clone_seq)
 ```
@@ -25,4 +25,5 @@ A complete example script is available: `src/run_aln.py`
 - `data` : example data obtained from GEO
 - `tcraligner` : main code base for hashTCR
 - `env.yml` : Required python libraries
-- `*.ipynb ` : analysis notebooks 
+- `test_seqs.ipynb` : notebook for in depth benchmarking of hash-based approach
+- `vdjdb_analysis.ipynb` : notebook for substitution analysis (amino acid similarity + confidence score)
