@@ -1,4 +1,4 @@
-#  Rapid pairwise alignment of TCR clones
+#  hashTCR: rapid pairwise alignment of TCR clones
 
 ## Installation
 ```
@@ -19,7 +19,7 @@ res = alnr.align_clones(query_clone_seq)
 
 A complete example script is available: `src/run_aln.py`
 
-## Description of Files
+## Description of files
 
 - `src` : auxiliary scripts to run example alignment 
 - `data` : example data obtained from GEO
